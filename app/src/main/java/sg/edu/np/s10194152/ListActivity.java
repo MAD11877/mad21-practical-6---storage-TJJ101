@@ -19,12 +19,24 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListActivity extends AppCompatActivity {
-
+    static ArrayList<User> userList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        Random rand = new Random();
+
+
+        DBHandler db = new DBHandler(this);
+
+        userList = db.getUser();
+
+        RecyclerView recyclerView = findViewById(R.id.recycleView);
+        UsersAdapter adapter = new UsersAdapter(this, userList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+
+//      Random rand = new Random();
 
         /*
         AlertDialog.Builder profile  = new AlertDialog.Builder(this);
@@ -46,20 +58,15 @@ public class ListActivity extends AppCompatActivity {
         */
 
         //generate data
-        ArrayList<User> userList = new ArrayList<>();
-        for(int i = 0; i < 20; i++){
-            User user1 = new User();
-            user1.setName("Name-" + rand.nextInt());
-            user1.setDescription("Description-" + rand.nextInt());
-            user1.setFollowed(rand.nextBoolean());
-            userList.add(user1);
-        }
+//      ArrayList<User> userList = new ArrayList<>();
+//      for(int i = 0; i < 20; i++){
+//          User user1 = new User();
+//          user1.setName("Name-" + rand.nextInt());
+//          user1.setDescription("Description-" + rand.nextInt());
+//          user1.setFollowed(rand.nextBoolean());
+//          userList.add(user1);
+//      }
 
-        RecyclerView recyclerView = findViewById(R.id.recycleView);
-        UsersAdapter adapter = new UsersAdapter(this, userList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
 
 
         /*androidimg2.setOnClickListener(new View.OnClickListener() {
