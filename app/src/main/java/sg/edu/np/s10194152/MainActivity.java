@@ -3,7 +3,6 @@ package sg.edu.np.s10194152;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,17 +48,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "UNFOLLOWED", Toast.LENGTH_SHORT).show();
                 }
             }
-            //DBHandler db = new DBHandler(this);
-            //db.updateUser(u);
         });
     }
     public void setFollowBtnText(User u, Button followBtn){
         if(u.isFollowed() == true){
-            u.setFollowed(true);
             followBtn.setText("UNFOLLOW");
         }
         else{
-            u.setFollowed(false);
             followBtn.setText("FOLLOW");
         }
     }
