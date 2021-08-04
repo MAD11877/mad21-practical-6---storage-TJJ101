@@ -20,24 +20,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder>{
-    Context context;
     ArrayList<User> userList;
 
-    public UsersAdapter(Context c, ArrayList<User> u){
-        context = c;
-        userList = u;
-    }
+    public UsersAdapter(ArrayList<User> List){ userList = List;}
     //Mandatory to Override
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View item;
-        if (viewType == 1){
-            item = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_user, parent, false);
+        View item= null;
+        if (viewType == 7){
+            item = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.viewholder_user,
+                    parent, false);
         }
         else{
-            item = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_user_seven, parent, false);
+            item = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.viewholder_user_seven,
+                    parent, false);
         }
 
         return new UserViewHolder(item);
@@ -49,33 +49,34 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder>{
 
         holder.name.setText(u.getName());
         holder.description.setText(u.getDescription());
+
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder profile  = new AlertDialog.Builder(context);
-                profile.setTitle("Profile")
+
+                new AlertDialog.Builder(holder.view.getContext())
+                        .setTitle("Profile")
                         .setMessage(u.getName())
                         .setCancelable(false)
                         .setPositiveButton("VIEW", new DialogInterface.OnClickListener(){
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent mainPage = new Intent(context, MainActivity.class);
-                                //Bundle full of data on User
+                                Intent mainPage = new Intent(holder.view.getContext(), MainActivity.class);
+                                /*Bundle full of data on User
                                 Bundle userData = new Bundle();
                                 userData.putString("Name", u.getName());
                                 userData.putString("Desc", u.getDescription());
                                 userData.putInt("Id", u.getId());
                                 userData.putBoolean("followStatus", u.isFollowed());
-                                //<--- Ends here
-                                mainPage.putExtra("UserData", userData);  //sends data to MainActivity
-                                context.startActivity(mainPage);
+                                mainPage.putExtra("UserData", userData);
+                                //sends data to MainActivity
+                                <--- Ends here*/
+                                mainPage.putExtra("id", position);
+                                holder.view.getContext().startActivity(mainPage);
                             }
                         })
-                        .setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                            }
-                        });
-                profile.show();
+                        .setNegativeButton("CLOSE", null)
+                        .show();
 
             }
         });

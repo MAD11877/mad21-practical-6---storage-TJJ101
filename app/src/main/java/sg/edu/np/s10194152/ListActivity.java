@@ -19,6 +19,8 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ListActivity extends AppCompatActivity {
+    static ArrayList<User> userList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +45,22 @@ public class ListActivity extends AppCompatActivity {
 
             }
         });
-        */
+
 
         //generate data
-        ArrayList<User> userList = new ArrayList<>();
         for(int i = 0; i < 20; i++){
             User user1 = new User();
             user1.setName("Name-" + rand.nextInt());
             user1.setDescription("Description-" + rand.nextInt());
             user1.setFollowed(rand.nextBoolean());
             userList.add(user1);
-        }
+        }*/
+
+        DBHandler db = new DBHandler(this);
+        userList = db.getUsers();
 
         RecyclerView recyclerView = findViewById(R.id.recycleView);
-        UsersAdapter adapter = new UsersAdapter(this, userList);
+        UsersAdapter adapter = new UsersAdapter(userList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
